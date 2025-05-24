@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D炫酷相册 - Beautiful HTML Demo</title>
+    <link rel="icon" href="/images/favicon.jpg" type="image/jpeg">
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(120deg, #232526 0%, #414345 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', 'PingFang SC', 'Arial', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            margin-top: 40px;
+            font-size: 2.4rem;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 24px #000a;
+        }
+
+        .album-3d {
+            perspective: 1200px;
+            width: 600px;
+            height: 380px;
+            margin: 60px auto 0 auto;
+            position: relative;
+            user-select: none;
+        }
+
+        .carousel {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(.23, 1.12, .67, .99);
+        }
+
+        .carousel img {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 320px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 1.5px 6px rgba(0, 120, 255, 0.18);
+            border: 4px solid #fff2;
+            transform: translate(-50%, -50%) scale(1);
+            transition: box-shadow 0.3s, transform 0.3s;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .carousel img.active {
+            box-shadow: 0 12px 48px 8px #0078ff99, 0 2px 12px #fff8;
+            border: 4px solid #0078ff;
+            transform: translate(-50%, -50%) scale(1.13) rotateY(0deg);
+            z-index: 2;
+        }
+
+        .carousel img:hover {
+            box-shadow: 0 16px 64px 12px #00eaffcc, 0 2px 12px #fff8;
+            transform: translate(-50%, -50%) scale(1.18) rotateY(0deg);
+            border: 4px solid #00eaff;
+            z-index: 3;
+        }
+
+        @media (max-width: 700px) {
+            .album-3d {
+                width: 98vw;
+                height: 220px;
+            }
+
+            .carousel img {
+                width: 180px;
+                height: 110px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>3D炫酷相册</h1>
+    <div class="album-3d">
+        <div class="carousel" id="carousel">
+            <img src="images/3d/photo_2023-12-12_00-14-34.jpg" alt="1">
+            <img src="images/3d/photo_2023-12-12_00-14-35.jpg" alt="2">
+            <img src="images/3d/photo_2023-12-12_00-14-36.jpg" alt="3">
+            <img src="images/3d/photo_2023-12-12_00-14-37.jpg" alt="4">
+            <img src="images/3d/photo_2023-12-12_00-14-39.jpg" alt="5">
+            <img src="images/3d/photo_2023-12-12_00-14-40.jpg" alt="6">
+            <img src="images/3d/photo_2023-12-12_00-14-41.jpg" alt="7">
+            <img src="images/3d/photo_2023-12-12_00-14-42.jpg" alt="8">
+            <img src="images/3d/photo_2023-12-12_00-14-43.jpg" alt="9">
+        </div>
+    </div>
+    <script>
+        const carousel = document.getElementById('carousel');
+        const imgs = carousel.querySelectorAll('img');
+        const len = imgs.length;
+        let curr = 0;
+        let angle = 360 / len;
+        let autoRotate = true;
+        let timer = null;
+
+        function updateCarousel () {
+            imgs.forEach((img, i) => {
+                const theta = angle * i + curr * angle;
+                img.style.transform = `translate(-50%, -50%) rotateY(${theta}deg) translateZ(340px)`;
+                img.classList.toggle('active', i === ((-curr % len + len) % len));
+            });
+        }
+
+        function next () {
+            curr = (curr + 1) % len;
+            updateCarousel();
+        }
+        function prev () {
+            curr = (curr - 1 + len) % len;
+            updateCarousel();
+        }
+
+        function startAuto () {
+            if (timer) clearInterval(timer);
+            timer = setInterval(() => {
+                if (autoRotate) next();
+            }, 2200);
+        }
+        function stopAuto () {
+            autoRotate = false;
+            if (timer) clearInterval(timer);
+        }
+        function resumeAuto () {
+            autoRotate = true;
+            startAuto();
+        }
+
+        carousel.addEventListener('mouseenter', stopAuto);
+        carousel.addEventListener('mouseleave', resumeAuto);
+        carousel.addEventListener('click', next);
+        updateCarousel();
+        startAuto();
+
+        // 支持左右键切换
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowLeft') prev();
+            if (e.key === 'ArrowRight') next();
+        });
+    </script>
+</body>
+
+</html>
