@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马超云 - 个人简历</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/images/favicon.jpg" type="image/jpeg">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(120deg, #e0e7ff 0%, #f3f4f6 100%);
+        }
+
+        .resume-main {
+            min-height: 92vh;
+            max-width: 980px;
+            margin: 48px auto 32px auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.10), 0 1.5px 6px rgba(0, 120, 255, 0.08);
+            padding: 48px 48px 32px 48px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .resume-header {
+            border-bottom: 1.5px solid #e5e7eb;
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+            background: transparent;
+        }
+
+        .title-cols {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .title-avatar {
+            display: flex;
+            align-items: center;
+            margin-right: 32px;
+            margin-bottom: 0;
+        }
+
+        .title-avatar img {
+            border-radius: 50%;
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            margin-right: 24px;
+            box-shadow: 0 2px 12px rgba(0, 120, 255, 0.10);
+        }
+
+        .name-title h1 {
+            font-size: 2.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #222;
+        }
+
+        .name-title h2 {
+            font-size: 1.15rem;
+            color: #555;
+        }
+
+        .link-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0 18px;
+        }
+
+        .link-list li {
+            color: #444;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .link-list a {
+            color: #0078ff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .link-list a:hover {
+            text-decoration: underline;
+        }
+
+        .resume-content {
+            flex: 1;
+            padding-bottom: 32px;
+        }
+
+        .content-section {
+            margin-bottom: 36px;
+        }
+
+        .section-title-header h2 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #0078ff;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .section-detail-item {
+            margin-bottom: 20px;
+        }
+
+        .item-description {
+            color: #333;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .item-description ul {
+            margin-left: 1.2em;
+        }
+
+        .item-description li {
+            margin-bottom: 7px;
+        }
+
+        @media (max-width: 900px) {
+            .resume-main {
+                padding: 24px 8px 18px 8px;
+                margin: 0;
+                border-radius: 0;
+            }
+
+            .title-cols {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .title-avatar {
+                margin-bottom: 18px;
+            }
+
+            .title-avatar img {
+                margin-bottom: 12px;
+                margin-right: 0;
+            }
+
+            .link-list {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="resume-main p-8 bg-white">
+        <!-- 头部 -->
+        <header class="resume-header">
+            <div class="title-cols md:flex md:justify-between md:items-center">
+                <div class="title-avatar flex md:mr-8 items-center mb-4">
+                    <img class="w-20 mr-6"
+                        src="/images/photo_2023-12-18_14-05-00.jpg" alt="马超云">
+                    <div class="name-title">
+                        <h1 class="text-3xl font-semibold mb-2">马超云</h1>
+                        <h2 class="text-lg">高级前端开发工程师</h2>
+                    </div>
+                </div>
+                <ul class="link-list text-left columns-2">
+                    <li class="mr-5 mb-2">白银</li>
+                    <li class="mr-5 mb-2"><a href="mailto:hey@easycv.cn">hey@easycv.cn</a></li>
+                    <li class="mr-5 mb-2">18298377557</li>
+                    <li class="mr-5 mb-2">1990/12/24</li>
+                    <li class="mr-5 mb-2"><a href="https://hello-github-ui.github.io/" target="_blank">个人网站</a></li>
+                    <li class="mr-5 mb-2"><a href="https://github.com/hello-github-ui" target="_blank">Github</a></li>
+                    <li class="mr-5 mb-2"><a href="https://linkedin.com/hello-github-ui" target="_blank">LinkedIn</a></li>
+                </ul>
+            </div>
+        </header>
+        <!-- 内容区 -->
+        <div class="resume-content">
+            <div class="content-section">
+                <div class="content-section-holder mt-3">
+                    <header class="section-title-header uppercase tracking-wide">
+                        <h2 class="text-xl font-semibold mb-2">工作经历</h2>
+                    </header>
+                    <div class="content-section-container">
+                        <div class="section-detail-item mt-3">
+                            <div class="normal-content">
+                                <header>
+                                    <h3 class="font-semibold mb-2">高级前端开发工程师</h3>
+                                    <div class="flex justify-between flex-wrap mb-2 text-gray-400">
+                                        <h4>腾讯科技(深圳)有限公司 <span class="ml-2">深圳</span></h4>
+                                        <h4 class="md:text-right text-gray-400">2022/06 - 至今</h4>
+                                    </div>
+                                </header>
+                                <div class="item-description py-2">
+                                    <p><strong>腾讯星盘 </strong>- 低代码海报生成平台(<a href="https://fakeurl.com"
+                                            rel="noopener noreferrer" target="_blank">https://fakeurl.com</a>)</p>
+                                    <p>&nbsp;</p>
+                                    <p>主导星盘平台的架构设计与开发，构建一款基于<strong>monorepo
+                                        </strong>的AI赋能低代码海报设计工具，支持Web端和小程序端，提升用户创作效率与协作体验：</p>
+                                    <ul>
+                                        <li>熟练使用 <strong>Turborepo</strong>
+                                            搭建monorepo架构，统一管理Web端和小程序端代码库，实现组件复用、依赖共享和一致的构建流程。</li>
+                                        <li>采用 <strong>Vue 3.5</strong>、<strong>TypeScript</strong> 和 <strong>Vite
+                                                5</strong>，构建模块化、可扩展的前端架构，支持微前端模块按需加载。</li>
+                                        <li>集成 <strong>DeepSeek API</strong>，实现AI驱动的海报布局生成、智能内容推荐和样式优化，提升设计自动化和个性化体验。
+                                        </li>
+                                        <li>优化 <strong>ECharts 5</strong>，开发动态数据可视化模块，支持实时分析和AI推荐的图表样式，增强数据表达能力。</li>
+                                        <li>设计基于 <strong>JSON Schema</strong> 的动态表单系统，支持复杂依赖、实时校验和AI辅助的表单生成，提升配置灵活性。
+                                        </li>
+                                        <li>实现高级交互功能，包括拖拽编辑、缩放预览、快捷键操作及版本历史管理（撤销/重做），优化用户操作流畅性。</li>
+                                        <li>使用 <strong>Framer Motion</strong> 打造AI驱动的动画和手势交互，提升界面直观性和用户参与度。</li>
+                                        <li>通过 <strong>WebSocket</strong> 实现实时协作功能，支持多用户同步编辑，提高团队创作效率。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-detail-item mt-3">
+                            <div class="normal-content">
+                                <header>
+                                    <h3 class="font-semibold mb-2">前端开发工程师</h3>
+                                    <div class="flex justify-between flex-wrap mb-2 text-gray-400">
+                                        <h4>阿里巴巴(中国)有限公司 <span class="ml-2">杭州</span></h4>
+                                        <h4 class="md:text-right text-gray-400">2018/01 - 2019/12</h4>
+                                    </div>
+                                </header>
+                                <div class="item-description py-2">
+                                    <p><strong>项目：Ali Components 基础组件库</strong> (https://github.com/fake)</p>
+                                    <ul>
+                                        <li>擅长 <strong>React 19</strong> 和 <strong>TypeScript</strong>，开发无样式、功能专注的组件库，兼容
+                                            <strong>Tailwind CSS 4</strong>。
+                                        </li>
+                                        <li>使用 <strong>Vitest</strong> 和 <strong>React Testing Library</strong>
+                                            实现单元测试覆盖率超90%。</li>
+                                        <li>结合 <strong>GitHub Actions</strong> 搭建CI/CD流程，实现组件库自动化构建和发布至内部NPM。</li>
+                                        <li>熟练使用 <strong>AI辅助代码审查工具</strong>（如GitHub Copilot）优化代码质量和开发效率。</li>
+                                    </ul>
+                                    <p><strong>项目：祥云内部管理系统</strong></p>
+                                    <ul>
+                                        <li>熟练基于 <strong>Vue 3.5</strong> 和 <strong>Nuxt 4</strong> 进行开发，二次封装
+                                            <strong>Vue-Element-Admin</strong> 框架。
+                                        </li>
+                                        <li>设计复杂权限管理方案，支持动态角色配置和AI驱动的权限验证。</li>
+                                        <li>使用 <strong>Vite 5</strong> 优化构建性能，提升系统加载速度和用户体验。</li>
+                                        <li>熟悉 <strong>Lighthouse 11</strong> 进行性能优化，确保核心Web指标达标。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-section">
+                <div class="content-section-holder mt-3">
+                    <header class="section-title-header uppercase tracking-wide">
+                        <h2 class="text-xl font-semibold mb-2">专业技能</h2>
+                    </header>
+                    <div class="content-section-container md:grid md:grid-cols-2 md:gap-6">
+                        <div class="section-detail-item mt-3">
+                            <div class="custom-content">
+                                <header>
+                                    <h3 class="font-semibold mb-2">前端开发语言与核心技术</h3>
+                                </header>
+                                <div class="item-description py-2">
+                                    <ul>
+                                        <li>熟练使用 <strong>JavaScript (ES2025)</strong> 和
+                                            <strong>TypeScript</strong>，构建可扩展、类型安全的Web应用。
+                                        </li>
+                                        <li>熟悉 <strong>Web Components</strong>，用于开发可复用的UI组件。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-detail-item mt-3">
+                            <div class="custom-content">
+                                <header>
+                                    <h3 class="font-semibold mb-2">样式与 UI 开发</h3>
+                                </header>
+                                <div class="item-description py-2">
+                                    <ul>
+                                        <li>熟练使用 <strong>CSS4</strong>，支持容器查询和层级管理等高级特性。</li>
+                                        <li>熟悉 <strong>Tailwind CSS 4</strong>，实现实用优先的样式设计。</li>
+                                        <li>擅长 <strong>Framer Motion</strong>，实现 AI 驱动的动画和交互效果。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-detail-item mt-3">
+                            <div class="custom-content">
+                                <header>
+                                    <h3 class="font-semibold mb-2">现代 JavaScript 框架与生态</h3>
+                                </header>
+                                <div class="item-description py-2">
+                                    <ul>
+                                        <li>熟练掌握 <strong>React 19</strong> 结合 <strong>Next.js
+                                                15</strong>，开发服务端渲染和AI增强的Web应用。</li>
+                                        <li class="ql-indent-1">使用 <strong>TanStack Query</strong> 和
+                                            <strong>Zustand</strong> 优化状态管理和数据获取。
+                                        </li>
+                                        <li class="ql-indent-1">集成 <strong>Vercel AI SDK</strong> 实现AI驱动的动态内容生成。</li>
+                                        <li>擅长 <strong>Vue 3.5</strong> 结合 <strong>Nuxt 4</strong>，进行全栈Web开发。</li>
+                                        <li class="ql-indent-1">使用 <strong>Vite 5</strong>、<strong>Vue-Router
+                                                4</strong>、<strong>Pinia 2</strong> 和 <strong>Shadcn/Vue</strong>
+                                            构建现代应用。</li>
+                                        <li class="ql-indent-1">集成 <strong>VueUse</strong> 提供可组合的AI交互功能。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-detail-item mt-3">
+                            <div class="custom-content">
+                                <header>
+                                    <h3 class="font-semibold mb-2">AI 集成前端开发</h3>
+                                </header>
+                                <div class="item-description py-2">
+                                    <ul>
+                                        <li>熟练集成 <strong>AI API</strong>（Vercel AI SDK 接入多种大模型），实现动态UI内容和个性化体验。</li>
+                                        <li>熟练使用 <strong>AI 驱动的开发工具</strong>（如 Cursor），进行高效编码和自动化开发。</li>
+                                        <li>熟悉 <strong>AI辅助UI设计工具</strong>（如 Vercel v0），用于快速原型设计。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-detail-item mt-3">
+                            <div class="custom-content">
+                                <header>
+                                    <h3 class="font-semibold mb-2">前端构建与工程化</h3>
+                                </header>
+                                <div class="item-description py-2">
+                                    <ul>
+                                        <li>熟练使用 <strong>Vite 5</strong> 和 <strong>Turbopack</strong>，实现快速打包和性能优化。</li>
+                                        <li>熟悉 <strong>Git</strong> 结合 <strong>GitHub</strong>，进行版本控制，熟悉 <strong>Git
+                                                Flow</strong> 工作流。</li>
+                                        <li>擅长 <strong>AI辅助代码审查工具</strong>（如GitHub Copilot），提升代码质量。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-section">
+                <div class="content-section-holder mt-3">
+                    <header class="section-title-header uppercase tracking-wide">
+                        <h2 class="text-xl font-semibold mb-2">教育经历</h2>
+                    </header>
+                    <div class="content-section-container">
+                        <div class="section-detail-item mt-3">
+                            <div class="normal-content">
+                                <header>
+                                    <h3 class="font-semibold mb-2">学士</h3>
+                                    <div class="flex justify-between flex-wrap mb-2 text-gray-400">
+                                        <h4>湖南大学 <span class="ml-2">计算机科学与技术</span></h4>
+                                        <h4 class="md:text-right text-gray-400">2006/09 - 2010/07</h4>
+                                    </div>
+                                </header>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
