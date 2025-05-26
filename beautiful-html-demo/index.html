@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Beautiful HTML Demo</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" id="main-style" href="static/css/style.css">
     <link rel="icon" href="/images/favicon.jpg" type="image/jpeg">
 </head>
 
@@ -138,6 +138,27 @@
         var month = (now.getMonth() + 1).toString().padStart(2, '0'); // 补零
         var el = document.getElementById('footer-year-month');
         if (el) el.textContent = year + '-' + month;
+    })();
+
+    // 动态引入 style.css ，为了同时适配部署到 github pages 和 Render
+    (function() {
+        // 自动判断是否在 GitHub Pages 子路径下
+        var prefix = '/';
+        var path = window.location.pathname;
+        // 你的仓库名
+        var repo = 'beautiful-html-demo';
+        if (path.startsWith('/' + repo + '/')) {
+            prefix = '/' + repo + '/';
+        }
+        // 修正所有以 static/、images/ 等开头的资源
+        document.querySelectorAll('link[rel="stylesheet"], script[src], img[src]').forEach(function(el) {
+            ['href', 'src'].forEach(function(attr) {
+                var val = el.getAttribute(attr);
+                if (val && (val.startsWith('static/') || val.startsWith('images/'))) {
+                    el.setAttribute(attr, prefix + val);
+                }
+            });
+        });
     })();
 </script>
 </body>
