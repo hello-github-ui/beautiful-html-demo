@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>炫酷时钟</title>
+    <link rel="icon" href="/images/favicon.jpg" type="image/jpeg">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+        }
+    </style>
+</head>
+<body>
+<canvas id="myCanvas"></canvas>
+
+<script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+
+    function resizeCanvas() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function degToRad(degree) {
+        return degree * Math.PI / 180;
+    }
+
+    function renderTime() {
+        const date = new Date();
+        const today = date.toDateString();
+        const hTime = ('0' + date.getHours()).slice(-2);
+        const mTime = ('0' + date.getMinutes()).slice(-2);
+        const sTime = ('0' + date.getSeconds()).slice(-2);
+        const ms = date.getMilliseconds();
+        const smoothSec = date.getSeconds() + ms / 1000;
+        const smoothMin = date.getMinutes() + smoothSec / 60;
+
+        // 背景渐变
+        const gradient = ctx.createRadialGradient(w / 2, h / 2, 5, w / 2, h / 2, w);
+        gradient.addColorStop(0, "#002233");
+        gradient.addColorStop(1, "#000000");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, w, h);
+
+        const centerX = w / 2;
+        const centerY = h / 2;
+
+        ctx.lineCap = "round";
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = "#00ffff";
+        ctx.strokeStyle = "#00ffff";
+
+        // 时针圆弧（最外圈）
+        ctx.beginPath();
+        ctx.lineWidth = 16;
+        ctx.arc(centerX, centerY, 190, degToRad(270), degToRad((date.getHours() * 30) - 90));
+        ctx.stroke();
+
+        // 分针圆弧
+        ctx.beginPath();
+        ctx.lineWidth = 12;
+        ctx.arc(centerX, centerY, 160, degToRad(270), degToRad((smoothMin * 6) - 90));
+        ctx.stroke();
+
+        // 秒针圆弧
+        ctx.beginPath();
+        ctx.lineWidth = 8;
+        ctx.arc(centerX, centerY, 130, degToRad(270), degToRad((smoothSec * 6) - 90));
+        ctx.stroke();
+
+        // 时间与日期文本
+        ctx.fillStyle = "#00ffff";
+        ctx.font = "22px 'Segoe UI', sans-serif";
+        ctx.fillText(today, centerX - 70, centerY + 60);
+        ctx.font = "24px 'Segoe UI Bold', sans-serif";
+        ctx.fillText(`${hTime}:${mTime}:${sTime}:${ms}`, centerX - 90, centerY + 90);
+    }
+
+    setInterval(renderTime, 40);
+</script>
+</body>
+</html>

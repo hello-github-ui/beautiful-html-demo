@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="/images/favicon.jpg" type="image/jpeg">
+    <title>拖拽替换图片 - 现代化版本</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .title {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            animation: fadeInDown 1s ease-out 0.2s both;
+        }
+
+        #box {
+            margin: 0 auto;
+            width: 520px;
+            height: 370px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            position: relative;
+            padding: 15px;
+            border: 2px solid rgba(255,255,255,0.3);
+            animation: slideInUp 1s ease-out 0.4s both;
+        }
+
+        .item {
+            width: 150px;
+            height: 100px;
+            border-radius: 12px;
+            margin: 5px;
+            float: left;
+            background: linear-gradient(145deg, #f0f2f5, #e1e8ed);
+            border: 2px solid transparent;
+            z-index: 1;
+            text-align: center;
+            cursor: grab;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .item:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .item:active {
+            cursor: grabbing;
+        }
+
+        .item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .item:hover img {
+            transform: scale(1.05);
+        }
+
+        .moving {
+            border: 2px dashed #667eea !important;
+            background: rgba(102, 126, 234, 0.1) !important;
+            box-shadow: inset 0 0 20px rgba(102, 126, 234, 0.2) !important;
+            animation: pulse 1.5s infinite;
+        }
+
+        .moving img {
+            opacity: 0;
+        }
+
+        .draging {
+            width: 150px;
+            height: 100px;
+            position: absolute;
+            background: linear-gradient(145deg, #f0f2f5, #e1e8ed);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3), 0 5px 15px rgba(0,0,0,0.2);
+            border-radius: 12px;
+            z-index: 500;
+            border: 2px solid #667eea;
+            overflow: hidden;
+            transform: rotate(3deg);
+            transition: transform 0.2s ease;
+        }
+
+        .draging img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        /* 拖拽指示器 */
+        .drag-indicator {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(102, 126, 234, 0.9);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .item:hover .drag-indicator {
+            opacity: 1;
+        }
+
+        /* 动画效果 */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: inset 0 0 20px rgba(102, 126, 234, 0.2);
+            }
+            50% {
+                box-shadow: inset 0 0 30px rgba(102, 126, 234, 0.4);
+            }
+        }
+
+        @keyframes swapSuccess {
+            0% { transform: scale(1); }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
+            }
+            100% { transform: scale(1); }
+        }
+
+        .swap-success {
+            animation: swapSuccess 0.6s ease-in-out;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            #box {
+                width: 95%;
+                max-width: 380px;
+                height: auto;
+                padding: 10px;
+            }
+
+            .item, .draging {
+                width: 110px;
+                height: 75px;
+                margin: 3px;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .item, .draging {
+                width: 90px;
+                height: 60px;
+                margin: 2px;
+            }
+
+            #box {
+                padding: 8px;
+            }
+        }
+
+        /* 加载动画 */
+        .item {
+            animation: itemFadeIn 0.6s ease-out backwards;
+        }
+
+        .item:nth-child(1) { animation-delay: 0.1s; }
+        .item:nth-child(2) { animation-delay: 0.2s; }
+        .item:nth-child(3) { animation-delay: 0.3s; }
+        .item:nth-child(4) { animation-delay: 0.4s; }
+        .item:nth-child(5) { animation-delay: 0.5s; }
+        .item:nth-child(6) { animation-delay: 0.6s; }
+        .item:nth-child(7) { animation-delay: 0.7s; }
+        .item:nth-child(8) { animation-delay: 0.8s; }
+        .item:nth-child(9) { animation-delay: 0.9s; }
+
+        @keyframes itemFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* 提示文字 */
+        .instruction {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1 class="title">🎨 拖拽替换图片</h1>
+    <p class="subtitle">拖动任意图片到另一个位置进行交换</p>
+
+    <div id="box">
+        <div class="item">
+            <div class="drag-indicator">拖拽</div>
+            <img src="/images/3d/photo_2023-12-12_00-14-34.jpg" alt="图片1">
+        </div>
+        <div class="item">
+            <div class="drag-indicator">拖拽</div>
+            <img src="/images/3d/photo_2023-12-12_00-14-35.jpg" alt="图片2">
+        </div>
+        <div class="item">
+            <div class="drag-indicator">拖拽</div>
+            <img src="/images/3d/photo_2023-12-12_00-14-36.jpg" alt="图片3">
+        </div>
+        <div class="item">
+            <div class="drag-indicator">拖拽</div>
+            <img src="/images/3d/photo_2023-12-12_00-14-37.jpg" alt="图片4">
+        </div>
+        <div class="item">
+            <div class="drag-indicator">拖拽</div>
+            <img src="/images/3d/photo_2023-12-12_00-14-39.jpg" alt="图片5">
+        </div>
+        <div class="item">
+            <div class="drag-indicator">拖拽</div>
+            <img src="/images/3d/photo_2023-12-12_00-14-40.jpg" alt="图片6">
+        </div>
+        <div class="item">
+            <div class="drag-indicator">拖拽</div>
+            <img src="/images/3d/photo_2023-12-12_00-14-41.jpg" alt="图片7">
+        </div>
+        <div class="item">
+            <div class="drag-indicator">拖拽</div>
+            <img src="/images/3d/photo_2023-12-12_00-14-42.jpg" alt="图片8">
+        </div>
+        <div class="item">
+            <div class="drag-indicator">拖拽</div>
+            <img src="/images/3d/photo_2023-12-12_00-14-43.jpg" alt="图片9">
+        </div>
+    </div>
+
+    <p class="instruction">💡 点击并拖动图片到其他位置释放即可交换</p>
+</div>
+
+<script>
+    class ModernDragSwap {
+        constructor() {
+            this.isOperating = false;
+            this.init();
+        }
+
+        init() {
+            this.bindEvents();
+            this.addTouchSupport();
+        }
+
+        bindEvents() {
+            const items = document.querySelectorAll('#box .item');
+
+            items.forEach(item => {
+                // 鼠标事件
+                item.addEventListener('mousedown', (e) => this.handleStart(e, item));
+            });
+        }
+
+        handleStart(e, element) {
+            if (this.isOperating) return;
+
+            this.isOperating = true;
+            const that = element;
+
+            // 获取鼠标相对于元素的偏移
+            const rect = element.getBoundingClientRect();
+            const containerRect = document.getElementById('box').getBoundingClientRect();
+            const offsetX = e.clientX - rect.left;
+            const offsetY = e.clientY - rect.top;
+
+            // 创建克隆元素
+            const clone = element.cloneNode(true);
+            clone.classList.add('draging');
+            clone.style.left = (rect.left - containerRect.left) + 'px';
+            clone.style.top = (rect.top - containerRect.top) + 'px';
+
+            document.getElementById('box').appendChild(clone);
+            element.classList.add('moving');
+
+            // 鼠标移动处理
+            const handleMouseMove = (e) => {
+                const containerRect = document.getElementById('box').getBoundingClientRect();
+                clone.style.left = (e.clientX - containerRect.left - offsetX) + 'px';
+                clone.style.top = (e.clientY - containerRect.top - offsetY) + 'px';
+            };
+
+            // 鼠标释放处理
+            const handleMouseUp = () => {
+                document.removeEventListener('mousemove', handleMouseMove);
+                document.removeEventListener('mouseup', handleMouseUp);
+
+                this.findClosestAndSwap(clone, that);
+            };
+
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+
+            e.preventDefault();
+            return false;
+        }
+
+        findClosestAndSwap(clone, originalElement) {
+            const items = Array.from(document.querySelectorAll('#box .item')).filter(item =>
+                !item.classList.contains('draging')
+            );
+
+            let minIndex = Array.from(document.querySelectorAll('#box .item')).indexOf(originalElement);
+            let minDistance = Infinity;
+
+            const cloneRect = clone.getBoundingClientRect();
+            const cloneCenterX = cloneRect.left + cloneRect.width / 2;
+            const cloneCenterY = cloneRect.top + cloneRect.height / 2;
+
+            items.forEach((item, index) => {
+                if (item === originalElement) return;
+
+                const itemRect = item.getBoundingClientRect();
+                const itemCenterX = itemRect.left + itemRect.width / 2;
+                const itemCenterY = itemRect.top + itemRect.height / 2;
+
+                const distance = Math.sqrt(
+                    Math.pow(cloneCenterX - itemCenterX, 2) +
+                    Math.pow(cloneCenterY - itemCenterY, 2)
+                );
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    minIndex = Array.from(document.querySelectorAll('#box .item')).indexOf(item);
+                }
+            });
+
+            const allItems = document.querySelectorAll('#box .item');
+            const targetElement = allItems[minIndex];
+
+            if (targetElement === originalElement) {
+                // 回到原位置
+                this.animateToPosition(clone, originalElement, () => {
+                    originalElement.classList.remove('moving');
+                    clone.remove();
+                    this.isOperating = false;
+                });
+            } else {
+                // 执行交换
+                this.performSwap(clone, originalElement, targetElement);
+            }
+        }
+
+        performSwap(clone, element1, element2) {
+            // 创建第二个克隆
+            const clone2 = element2.cloneNode(true);
+            clone2.classList.add('draging');
+
+            const rect2 = element2.getBoundingClientRect();
+            const containerRect = document.getElementById('box').getBoundingClientRect();
+            clone2.style.left = (rect2.left - containerRect.left) + 'px';
+            clone2.style.top = (rect2.top - containerRect.top) + 'px';
+
+            document.getElementById('box').appendChild(clone2);
+            element2.classList.add('moving');
+
+            // 获取目标位置
+            const pos1 = this.getElementPosition(element1);
+            const pos2 = this.getElementPosition(element2);
+
+            // 同时动画两个克隆
+            this.animateToPosition(clone, element2, () => {
+                const element2Content = element2.innerHTML;
+                element2.classList.remove('moving');
+                element2.innerHTML = clone.innerHTML;
+                element2.classList.add('swap-success');
+                clone.remove();
+
+                setTimeout(() => element2.classList.remove('swap-success'), 600);
+            });
+
+            this.animateToPosition(clone2, element1, () => {
+                element1.classList.remove('moving');
+                element1.innerHTML = clone2.innerHTML;
+                element1.classList.add('swap-success');
+                clone2.remove();
+                this.isOperating = false;
+
+                setTimeout(() => element1.classList.remove('swap-success'), 600);
+            });
+        }
+
+        getElementPosition(element) {
+            const rect = element.getBoundingClientRect();
+            const containerRect = document.getElementById('box').getBoundingClientRect();
+            return {
+                left: rect.left - containerRect.left,
+                top: rect.top - containerRect.top
+            };
+        }
+
+        animateToPosition(element, targetElement, callback) {
+            const targetPos = this.getElementPosition(targetElement);
+
+            element.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            element.style.left = targetPos.left + 'px';
+            element.style.top = targetPos.top + 'px';
+            element.style.transform = 'rotate(0deg)';
+
+            setTimeout(() => {
+                if (callback) callback();
+            }, 400);
+        }
+
+        // 添加触摸支持
+        addTouchSupport() {
+            const items = document.querySelectorAll('#box .item');
+
+            items.forEach(item => {
+                item.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const mouseEvent = new MouseEvent('mousedown', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                    this.handleStart(mouseEvent, item);
+                });
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                if (this.isOperating) {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const mouseEvent = new MouseEvent('mousemove', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                    document.dispatchEvent(mouseEvent);
+                }
+            });
+
+            document.addEventListener('touchend', (e) => {
+                if (this.isOperating) {
+                    e.preventDefault();
+                    const mouseEvent = new MouseEvent('mouseup');
+                    document.dispatchEvent(mouseEvent);
+                }
+            });
+        }
+    }
+
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', () => {
+        new ModernDragSwap();
+
+        // 添加页面加载完成的提示
+        setTimeout(() => {
+            console.log('🎨 拖拽替换图片系统已就绪！');
+        }, 1000);
+    });
+
+    // 防止图片拖拽的默认行为
+    document.addEventListener('dragstart', (e) => {
+        if (e.target.tagName === 'IMG') {
+            e.preventDefault();
+        }
+    });
+</script>
+</body>
+</html>
