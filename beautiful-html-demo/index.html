@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Beautiful HTML Demo</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/images/favicon.jpg" type="image/jpeg">
+</head>
+
+<body>
+<header>
+    <div class="container nav-container">
+        <div class="logo">Beautiful HTML Demo</div>
+        <nav>
+            <a href="index.html">首页</a>
+            <a href="about.html">关于我</a>
+            <a href="https://github.com/hello-github-ui/beautiful-html-demo">联系我</a>
+        </nav>
+    </div>
+</header>
+<main>
+    <section class="hero">
+        <h1>欢迎来到 Beautiful HTML Demo</h1>
+        <p>简洁 · 大气 · 现代</p>
+        <a class="hero-btn" href="#links">了解更多</a>
+    </section>
+    <section class="links" id="links">
+        <h2>精彩示例</h2>
+        <div class="gallery-list">
+            <div class="gallery-card" data-href="css 实现永动的牛顿钟摆.html">
+                <img src="images/photo_2023-11-04_23-25-20.jpg" alt="牛顿钟摆">
+                <div class="gallery-info">
+                    <h3>css 实现永动的牛顿钟摆</h3>
+                    <p>纯CSS实现的牛顿摆动画，展现物理动感。</p>
+                </div>
+            </div>
+            <div class="gallery-card" data-href="三个立体矩形框环绕旋转.html">
+                <img src="images/3d/photo_2023-12-12_00-14-34.jpg" alt="立体矩形环绕">
+                <div class="gallery-info">
+                    <h3>三个立体矩形框环绕旋转</h3>
+                    <p>3D立体矩形环绕旋转的视觉特效，动感十足。</p>
+                </div>
+            </div>
+            <div class="gallery-card" data-href="动态增加 select.html">
+                <img src="images/photo_2023-11-21_22-34-27.jpg" alt="动态select">
+                <div class="gallery-info">
+                    <h3>动态增加 select</h3>
+                    <p>动态添加下拉框选项，交互灵活。</p>
+                </div>
+            </div>
+            <div class="gallery-card" data-href="拖拽表格.html">
+                <img src="images/photo_2023-12-18_14-05-00.jpg" alt="拖拽表格">
+                <div class="gallery-info">
+                    <h3>拖拽表格</h3>
+                    <p>支持行拖拽排序的表格，操作直观。</p>
+                </div>
+            </div>
+            <div class="gallery-card" data-href="3d相册.html">
+                <img src="images/photo_2023-02-12_02-44-21.jpg" alt="3D相册">
+                <div class="gallery-info">
+                    <h3>3D炫酷相册</h3>
+                    <p>3D环形旋转相册，动感十足，视觉冲击力强。</p>
+                </div>
+            </div>
+            <div class="gallery-card" data-href="立体相册.html">
+                <img src="images/photo_2023-02-21_00-48-35.jpg" alt="立体相册">
+                <div class="gallery-info">
+                    <h3>立体相册</h3>
+                    <p>立体环形旋转相册</p>
+                </div>
+            </div>
+            <div class="gallery-card" data-href="star.html">
+                <img src="images/photo_2023-02-12_02-24-36.jpg" alt="星星">
+                <div class="gallery-info">
+                    <h3>星星</h3>
+                    <p>缤纷星空</p>
+                </div>
+            </div>
+            <div class="gallery-card" data-href="rotating-rubik-cube.html">
+                <img src="images/photo_2023-02-21_00-48-35.jpg" alt="旋转相册">
+                <div class="gallery-info">
+                    <h3>相册</h3>
+                    <p>旋转相册</p>
+                </div>
+            </div>
+
+            <div class="gallery-card" data-href="clock.html">
+                <img src="images/favicon.jpg" alt="Canvas时钟">
+                <div class="gallery-info">
+                    <h3>时钟</h3>
+                    <p>Canvas时钟</p>
+                </div>
+            </div>
+
+            <div class="gallery-card" data-href="纸飞机.html">
+                <img src="images/photo_2023-02-12_02-44-49.jpg" alt="飞机">
+                <div class="gallery-info">
+                    <h3>飞机</h3>
+                    <p>飞机</p>
+                </div>
+            </div>
+
+            <div class="gallery-card" data-href="拖拽替换效果.html">
+                <img src="images/photo_2023-02-21_00-48-46.jpg" alt="图片">
+                <div class="gallery-info">
+                    <h3>图片</h3>
+                    <p>拖拽替换图片</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<footer>
+    <div class="container">
+        &copy; <span id="footer-year-month"></span> Beautiful HTML Demo. 保留所有权利。
+    </div>
+</footer>
+
+<script>
+    // gallery-card 整卡可点击跳转
+    window.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.gallery-card').forEach(card => {
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', function () {
+                const href = card.getAttribute('data-href');
+                if (href) window.location.href = href;
+            });
+        });
+    });
+
+    // 页脚年月份自动更新
+    (function () {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = (now.getMonth() + 1).toString().padStart(2, '0'); // 补零
+        var el = document.getElementById('footer-year-month');
+        if (el) el.textContent = year + '-' + month;
+    })();
+</script>
+</body>
+
+</html>

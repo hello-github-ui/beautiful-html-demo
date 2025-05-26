@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>立体相册</title>
+    <link rel="icon" href="/images/favicon.jpg" type="image/jpeg">
+    <style>
+        html {
+            background: #000;
+            height: 100%;
+        }
+
+        /*最外层容器样式*/
+        .wrap {
+            /* position: relative; */
+            /* position: absolute; */
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 400px;
+            height: 400px;
+            margin: 100px auto;
+            /*改变左右上下,图片方块移动*/
+
+        }
+
+        /*包裹所有容器样式*/
+        .cube {
+            width: 400px;
+            height: 400px;
+            margin: 0 auto;
+            transform-style: preserve-3d;
+            transform: rotateX(-30deg) rotateY(-80deg);
+            -webkit-animation: rotate 20s infinite;
+            /*匀速*/
+            animation-timing-function: linear;
+        }
+
+        @-webkit-keyframes rotate {
+            from {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+
+            to {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+
+        .cube div {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            opacity: 0.8;
+            transition: all .4s;
+        }
+
+        /*定义所有图片样式*/
+        .pic {
+            width: 400px;
+            height: 400px;
+        }
+
+        .cube .out_front {
+            transform: rotateY(0deg) translateZ(200px);
+        }
+
+        .cube .out_back {
+            transform: translateZ(-200px) rotateY(180deg);
+        }
+
+        .cube .out_left {
+            transform: rotateY(90deg) translateZ(200px);
+        }
+
+        .cube .out_right {
+            transform: rotateY(-90deg) translateZ(200px);
+        }
+
+        .cube .out_top {
+            transform: rotateX(90deg) translateZ(200px);
+        }
+
+        .cube .out_bottom {
+            transform: rotateX(-90deg) translateZ(200px);
+        }
+
+        /*定义小正方体样式*/
+        .cube span {
+            display: bloack;
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            top: 100px;
+            left: 100px;
+        }
+
+        .cube .in_pic {
+            width: 200px;
+            height: 200px;
+        }
+
+        .cube .in_front {
+            transform: rotateY(0deg) translateZ(100px);
+        }
+
+        .cube .in_back {
+            transform: translateZ(-100px) rotateY(180deg);
+        }
+
+        .cube .in_left {
+            transform: rotateY(90deg) translateZ(100px);
+        }
+
+        .cube .in_right {
+            transform: rotateY(-90deg) translateZ(100px);
+        }
+
+        .cube .in_top {
+            transform: rotateX(90deg) translateZ(100px);
+        }
+
+        .cube .in_bottom {
+            transform: rotateX(-90deg) translateZ(100px);
+        }
+
+        /*鼠标移入后样式*/
+        .cube:hover .out_front {
+            transform: rotateY(0deg) translateZ(400px);
+        }
+
+        .cube:hover .out_back {
+            transform: translateZ(-400px) rotateY(180deg);
+        }
+
+        .cube:hover .out_left {
+            transform: rotateY(90deg) translateZ(400px);
+        }
+
+        .cube:hover .out_right {
+            transform: rotateY(-90deg) translateZ(400px);
+        }
+
+        .cube:hover .out_top {
+            transform: rotateX(90deg) translateZ(400px);
+        }
+
+        .cube:hover .out_bottom {
+            transform: rotateX(-90deg) translateZ(400px);
+        }
+    </style>
+</head>
+
+<body>
+<!--/*外层最大容器*/-->
+<div class="wrap">
+    <!--	/*包裹所有元素的容器*/-->
+    <div class="cube">
+        <!--前面图片 -->
+        <div class="out_front">
+            <img src="/images/dd/6169b8932ab3f51d91b3d1e7.jpg" class="pic"/>
+        </div>
+        <!--后面图片 -->
+        <div class="out_back">
+            <img src="/images/dd/6169b8ac2ab3f51d91b3f439.jpg" class="pic"/>
+        </div>
+        <!--左图片 -->
+        <div class="out_left">
+            <img src="/images/dd/6169b8bf2ab3f51d91b411e1.jpg" class="pic"/>
+        </div>
+        <div class="out_right">
+            <img src="/images/dd/616867682ab3f51d91107bd4.jpg" class="pic"/>
+        </div>
+        <div class="out_top">
+            <img src="/images/dd/6168672c2ab3f51d910fee5f.jpg" class="pic"/>
+        </div>
+        <div class="out_bottom">
+            <img src="/images/dd/616863aa2ab3f51d9107ef09.jpg" class="pic"/>
+        </div>
+        <!--小正方体 -->
+        <span class="in_front">
+        <img src="/images/dd/616860d72ab3f51d9101e553.jpg" class="in_pic"/>
+      </span>
+        <span class="in_back">
+        <img src="/images/dd/61685e1f2ab3f51d91fc2567.jpg" class="in_pic"/>
+      </span>
+        <span class="in_left">
+        <img src="/images/dd/616859d42ab3f51d91f26cb4.jpg" class="in_pic"/>
+      </span>
+        <span class="in_right">
+        <img src="/images/dd/616853f22ab3f51d91e2eda2.jpg" class="in_pic"/>
+      </span>
+        <span class="in_top">
+        <img src="/images/dd/616853772ab3f51d91e1c69c.jpg" class="in_pic"/>
+      </span>
+        <span class="in_bottom">
+        <img src="/images/dd/604ba0885aedab222cf8ec18.jpg" class="in_pic"/>
+      </span>
+    </div>
+</div>
+</body>
+
+</html>

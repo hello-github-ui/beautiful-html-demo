@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拖拽表格 - Beautiful HTML Demo</title>
+    <link rel="icon" href="/images/favicon.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        .drag-table-container {
+            max-width: 700px;
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            padding: 32px 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.05rem;
+        }
+
+        th,
+        td {
+            padding: 14px 10px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        th {
+            background: #f5f7fa;
+            color: #0078ff;
+        }
+
+        tr {
+            transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+            cursor: grab;
+        }
+
+        tr:active {
+            cursor: grabbing;
+        }
+
+        tr.dragging {
+            opacity: 0.95;
+            background: #e0e7ff;
+            box-shadow: 0 8px 32px rgba(0, 120, 255, 0.18), 0 1.5px 6px rgba(0, 0, 0, 0.10);
+            cursor: grabbing;
+            z-index: 2;
+            position: relative;
+        }
+
+        tr:hover {
+            background: #f0f6ff;
+            box-shadow: 0 2px 12px rgba(0, 120, 255, 0.08);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container nav-container">
+            <div class="logo">Beautiful HTML Demo</div>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="#about">关于我们</a>
+                <a href="#contact">联系我们</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="drag-table-container">
+            <h2 style="text-align:center; margin-bottom:28px;">拖拽表格示例</h2>
+            <table id="dragTable">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>姓名</th>
+                        <th>职位</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr draggable="true">
+                        <td>1</td>
+                        <td>张三</td>
+                        <td>前端工程师</td>
+                    </tr>
+                    <tr draggable="true">
+                        <td>2</td>
+                        <td>李四</td>
+                        <td>后端工程师</td>
+                    </tr>
+                    <tr draggable="true">
+                        <td>3</td>
+                        <td>王五</td>
+                        <td>产品经理</td>
+                    </tr>
+                    <tr draggable="true">
+                        <td>4</td>
+                        <td>赵六</td>
+                        <td>设计师</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="color:#888; font-size:0.98rem; margin-top:18px;">可拖动表格行进行排序。</p>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            &copy; 2024 Beautiful HTML Demo. 保留所有权利。
+        </div>
+    </footer>
+    <script>
+        const tbody = document.querySelector('#dragTable tbody');
+        let draggingEle = null;
+        let isDragging = false;
+
+        tbody.addEventListener('dragstart', function (e) {
+            if (e.target.tagName !== 'TR') return;
+            draggingEle = e.target;
+            draggingEle.classList.add('dragging');
+            isDragging = true;
+        });
+
+        tbody.addEventListener('dragend', function (e) {
+            if (!draggingEle) return;
+            draggingEle.classList.remove('dragging');
+            draggingEle = null;
+            isDragging = false;
+        });
+
+        tbody.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            if (!draggingEle) return;
+            const afterElement = getDragAfterElement(tbody, e.clientY);
+            if (afterElement == null) {
+                tbody.appendChild(draggingEle);
+            } else if (afterElement !== draggingEle) {
+                tbody.insertBefore(draggingEle, afterElement);
+            }
+            updateIndex();
+        });
+
+        function getDragAfterElement (container, y) {
+            const draggableElements = [...container.querySelectorAll('tr:not(.dragging)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: -Infinity, element: null }).element;
+        }
+
+        function updateIndex () {
+            [...tbody.children].forEach((row, idx) => {
+                if (row.children[0]) {
+                    row.children[0].textContent = idx + 1;
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
