@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/images/favicon.jpg" type="image/jpeg">
+    <title>旋转方块</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        body{
+            background: #080808;
+            text-align: center;
+            color: white;
+        }
+        .container{
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 100px auto 60px;
+            perspective: 1000px;
+        }
+        .container .cube{
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+        .container .cube img{
+            width: 100%;
+            height: 100%;
+            /* display: block; */
+        }
+        .container .cube li{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .img1{
+            transform: translateZ(150px);
+        }
+        .img2{
+            transform: rotateX(-180deg) translateZ(151px);
+        }
+        .img3{
+            transform: rotateY(90deg) translateZ(150px);
+        }
+        .img4{
+            transform: rotateY(-90deg) translateZ(150px);
+        }
+        .img5{
+            transform: rotateX(90deg) translateZ(150px);
+        }
+
+        .img6{
+            transform: rotateX(-90deg) translateZ(150px);
+        }
+
+        .cube.init{
+            transform: translateZ(-150px) rotateX(-15deg) rotateY(18deg);
+        }
+
+        .btnList{
+            display: grid;
+            grid-template-columns: 105px 105px 105px;
+            grid-template-rows: 80px 80px;
+            justify-content: center;
+            grid-gap: 15px;
+        }
+        .btnList input{
+            width: 105px;
+            outline: none;
+            border: 2px solid #fafafa;
+        }
+        h2{
+            margin-bottom: 50px;
+        }
+        .btnList input:focus{
+            border: 2px solid #ac670c;
+
+        }
+        .cube.show-image-1{
+            transform: translateZ(-150px);
+        }
+        .cube.show-image-2{
+            transform: translateZ(-150px) rotateX(180deg);
+        }
+        .cube.show-image-3{
+            transform: translateZ(-150px) rotateY(-90deg);
+        }
+        .cube.show-image-4{
+            transform: translateZ(-150px) rotateY(90deg);
+        }
+        .cube.show-image-5{
+            transform: translateZ(-150px) rotateX(-90deg);
+        }
+        .cube.show-image-6{
+            transform: translateZ(-150px) rotateX(90deg);
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <ul class="cube init">
+        <li class="img1"><img src="/images/3d/photo_2023-12-12_00-14-34.jpg"  alt=""></li>
+        <li class="img2"><img src="/images/3d/photo_2023-12-12_00-14-35.jpg"  alt=""></li>
+        <li class="img3"><img src="/images/3d/photo_2023-12-12_00-14-36.jpg"   alt=""></li>
+        <li class="img4"><img src="/images/3d/photo_2023-12-12_00-14-37.jpg"  alt=""></li>
+        <li class="img5"><img src="/images/3d/photo_2023-12-12_00-14-39.jpg"  alt=""></li>
+        <li class="img6"><img src="/images/3d/photo_2023-12-12_00-14-40.jpg"  alt=""></li>
+    </ul>
+</div>
+
+<h2>请点击下列图片方块</h2>
+<ul class="btnList">
+    <li><input type="image" src="/images/3d/photo_2023-12-12_00-14-34.jpg" class="show-image-1"></li>
+    <li><input type="image" src="/images/3d/photo_2023-12-12_00-14-35.jpg" class="show-image-2"></li>
+    <li><input type="image" src="/images/3d/photo_2023-12-12_00-14-36.jpg" class="show-image-3"></li>
+    <li><input type="image" src="/images/3d/photo_2023-12-12_00-14-37.jpg" class="show-image-4"></li>
+    <li><input type="image" src="/images/3d/photo_2023-12-12_00-14-39.jpg" class="show-image-5"></li>
+    <li><input type="image" src="/images/3d/photo_2023-12-12_00-14-40.jpg" class="show-image-6"></li>
+</ul>
+<script>
+    (function(){
+        var btn_images = document.getElementsByTagName('input');
+        var cubeNode= document.getElementsByClassName('cube')[0];
+        var ClassList = cubeNode.classList;
+        var currentClass = ClassList[1];
+
+
+        for(var i = 0,len = btn_images.length;i<len;i++){
+            btn_images[i].addEventListener('click',clickFn)
+        }
+
+        function clickFn(e){
+            var target_ClassName = e.target.className;
+            console.log(target_ClassName);
+            if(target_ClassName!=currentClass){
+                ClassList.replace(currentClass,target_ClassName);
+                currentClass = target_ClassName;
+                console.log(cubeNode.classList)
+            }
+
+        }
+
+
+
+
+    })()
+
+
+
+</script>
+</body>
+</html>
