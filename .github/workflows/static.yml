@@ -1,25 +1,32 @@
 name: Deploy static to GitHub Pages
 
 on:
-  push:
-    branches:
-      - master # 或 main，根据你的默认分支修改
-  workflow_dispatch:
+    push:
+        branches:
+            - master # 或 main，根据你的默认分支修改
+    workflow_dispatch:
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-      - name: Prepare publish directory
-        run: |
-          mkdir -p public/beautiful-html-demo
-          cp -r static/* public/beautiful-html-demo/
+            - name: Prepare publish directory
+              run: |
+                mkdir -p public/beautiful-html-demo
+                cp -r static public/beautiful-html-demo/
+                cp -r images public/beautiful-html-demo/
+                cp ./*.html public/beautiful-html-demo/ || true
+                cp ./*.ico public/beautiful-html-demo/ || true
+                cp ./*.jpg public/beautiful-html-demo/ || true
+                cp ./*.png public/beautiful-html-demo/ || true
+                cp ./*.css public/beautiful-html-demo/ || true
+                cp ./*.js public/beautiful-html-demo/ || true
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+            - name: Deploy to GitHub Pages
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                github_token: ${{ secrets.GITHUB_TOKEN }}
+                publish_dir: ./public
