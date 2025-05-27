@@ -18,7 +18,7 @@ jobs:
                 mkdir -p public/beautiful-html-demo
                 cp -r static public/beautiful-html-demo/
                 cp -r images public/beautiful-html-demo/
-                cp ./*.html public/beautiful-html-demo/ || true
+                cp ./*.html public/beautiful-html-demo/
                 cp ./*.ico public/beautiful-html-demo/ || true
                 cp ./*.jpg public/beautiful-html-demo/ || true
                 cp ./*.png public/beautiful-html-demo/ || true
@@ -30,3 +30,4 @@ jobs:
               with:
                 github_token: ${{ secrets.GITHUB_TOKEN }}
                 publish_dir: ./public
+                destination_dir: beautiful-html-demo
